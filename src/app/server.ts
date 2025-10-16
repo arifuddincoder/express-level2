@@ -13,8 +13,12 @@ const client = new MongoClient(process.env.MONGODB_URI, {
 });
 
 const bootstrap = async () => {
-	await client.db("admin").command({ ping: 1 });
+	await client.connect();
+	const db = await client.db("express-level2-todosdb");
 	console.log("Pinged your deployment. You successfully connected to MongoDB!");
+
+	const todosCollection = db.collection("todos");
+
 	server = app.listen(port, () => {
 		console.log(`Example app listening on port ${port}`);
 	});
